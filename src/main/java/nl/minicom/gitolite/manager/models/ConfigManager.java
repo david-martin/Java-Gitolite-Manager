@@ -120,7 +120,7 @@ public class ConfigManager {
 		this.gitUri = gitUri;
 		this.git = gitManager;
 		this.workingDirectory = git.getWorkingDirectory();
-		this.config = new AtomicReference<>();
+		this.config = new AtomicReference<Config>();
 		this.worker = new Worker();
 	}
 	
@@ -318,12 +318,16 @@ public class ConfigManager {
 							log.info("Worker is pushing changes to remote repository");
 							writeAndPush();
 						}
-						catch (IOException | ServiceUnavailable e) {
-							log.error("Worker failed to push changes to remote repository, notifying owners", e);
-							for (SettableFuture<Void> future : succeeded) {
-								future.setException(e);
-							}
-							return null;
+						catch (Exception e) {
+						  if (e instanceof IOException || e instanceof ServiceUnavailable) { 
+  							log.error("Worker failed to push changes to remote repository, notifying owners", e);
+  							for (SettableFuture<Void> future : succeeded) {
+  								future.setException(e);
+  							}
+  							return null;
+						  } else {
+						    throw e;
+						  }
 						}
 						
 						log.debug("Worker is notifying changeset owners");

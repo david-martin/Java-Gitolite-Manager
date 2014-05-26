@@ -202,8 +202,10 @@ public class JGitManager implements GitManager {
 				push.call();
 			} catch (NullPointerException e) {
 				throw new ServiceUnavailable(e);
-			} catch (GitAPIException | JGitInternalException e) {
-				throw new GitException(e);
+			} catch (GitAPIException e) {
+  			throw new GitException(e);
+			} catch (JGitInternalException e) {
+			  throw new GitException(e);
 			}
 		}
 	}
