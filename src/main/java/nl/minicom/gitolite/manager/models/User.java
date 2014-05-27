@@ -14,7 +14,7 @@ import com.google.common.collect.Maps;
  * 
  * @author Michael de Jong <michaelj@minicom.nl>
  */
-public final class User implements Identifiable {
+public class User implements Identifiable {
 
 	private final String name;
 	private final Map<String, String> keys;

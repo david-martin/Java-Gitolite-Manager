@@ -55,7 +55,7 @@ public final class ConfigWriter {
 		Collection<Group> groups = config.getGroups();
 		if (!groups.isEmpty()) {
 			for (Group group : groups) {
-				if (group.getName().equals("@all")) {
+				if (group.getEntityNamesInGroup().isEmpty() || group.getName().equals("@all")) {
 					continue;
 				}
 				writer.write(pad(group.getName(), PADDING) + " = " 

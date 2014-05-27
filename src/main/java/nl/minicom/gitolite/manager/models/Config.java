@@ -1,5 +1,6 @@
 package nl.minicom.gitolite.manager.models;
 
+import java.util.Set;
 import java.util.SortedSet;
 
 import com.google.common.base.Preconditions;
@@ -12,13 +13,13 @@ import com.google.common.collect.Sets;
  * 
  * @author Michael de Jong <michaelj@minicom.nl>
  */
-public final class Config {
+public class Config {
 
 	private final SortedSet<Repository> repositories;
 	private final SortedSet<Group> groups;
 	private final SortedSet<User> users;
 
-	/**
+  /**
 	 * This constructs a new {@link Config} object.
 	 */
 	public Config() {
@@ -66,7 +67,7 @@ public final class Config {
 		}
 		
 		Repository repository = new Repository(repoName);
-		repositories.add(repository);
+    repositories.add(repository);
 		return repository;
 	}
 	

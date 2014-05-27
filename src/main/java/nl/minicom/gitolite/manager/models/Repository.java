@@ -15,7 +15,7 @@ import com.google.common.collect.TreeMultimap;
  * 
  * @author Michael de Jong <michaelj@minicom.nl>
  */
-public final class Repository {
+public class Repository {
 
 	static final Comparator<Repository> SORT_ALPHABETICALLY = new Comparator<Repository>() {
 		@Override

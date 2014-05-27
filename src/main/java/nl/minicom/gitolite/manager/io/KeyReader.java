@@ -49,7 +49,7 @@ public final class KeyReader {
 				fileName = fileName.replace(".pub", "@.pub");
 			}
 			
-			int indexOfAt = fileName.indexOf('@');
+			int indexOfAt = fileName.lastIndexOf('@'); // possible there are multiple @. see http://gitolite.com/gitolite/users.html#multi-key
 			String userName = fileName.substring(0, indexOfAt);
 			String keyName = fileName.substring(indexOfAt + 1, fileName.indexOf(".pub"));
 			String content = readKeyFile(keyFile);

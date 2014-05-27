@@ -50,7 +50,7 @@ public final class Group implements Identifiable {
 	 * @param name
 	 * 	The name of the group. The name must be a non-null, not-empty value.
 	 */
-	Group(String name) {
+	public Group(String name) {
 		Preconditions.checkNotNull(name);
 		Preconditions.checkArgument(!name.isEmpty());
 		Preconditions.checkArgument(name.startsWith("@"));

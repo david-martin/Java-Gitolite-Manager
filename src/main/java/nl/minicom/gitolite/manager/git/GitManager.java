@@ -2,8 +2,12 @@ package nl.minicom.gitolite.manager.git;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import nl.minicom.gitolite.manager.exceptions.ServiceUnavailable;
+
+import org.eclipse.jgit.transport.RemoteRefUpdate;
+import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 
 /**
  * This interface is designed to be extended to support different java-git
@@ -44,6 +48,20 @@ public interface GitManager {
 	 * @throws ServiceUnavailable
 	 */
 	void clone(String uri) throws IOException, ServiceUnavailable;
+	
+	/**
+     * This method clones a git repository from the specified URI, to the current
+     * working directory, and checkout the specified branch
+     * 
+     * @param uri The URI to clone the git repository from. This cannot be NULL.
+     * @param branch The initial branch to checkout. If this is NULL, the default master branch will be checked out.
+     * @param timeout The wait time befoe aborting IO operation, in seconds
+     * 
+     * @throws IOException If the clone operation failed, or if the working
+     *            directory is not ready for a new git repository.
+     * @throws ServiceUnavailable
+     */
+	void clone(String uri, String branch, int timeout) throws IOException, ServiceUnavailable;
 
 	/**
 	 * This method initializes a new git repository in the working directory.
@@ -60,6 +78,16 @@ public interface GitManager {
 	 * @throws IOException If the pull operation failed.
 	 */
 	boolean pull() throws IOException, ServiceUnavailable;
+	
+	/**
+     * This method pulls new commits from the remote git repository.
+     * @param timeout In seconds
+     * 
+     * @return True if new commits were found and pulled, false otherwise.
+     * 
+     * @throws IOException If the pull operation failed.
+     */
+    boolean pull(int timeout) throws IOException, ServiceUnavailable;
 
 	/**
 	 * Commits all changes to the working directory to the local git repository.
@@ -68,17 +96,33 @@ public interface GitManager {
 	 */
 	void commitChanges() throws IOException;
 
+  /**
+   * Commits all changes to the working directory to the local git repository.
+   * 
+   * @param message The commit message to use.
+   * 
+   * @throws IOException If the add or commit operations failed.
+   */
+  void commitChanges(String message) throws IOException;
+
 	/**
 	 * This method pushes the locally committed changes to the remote git
 	 * repository.
+	 * @return 
 	 * 
 	 * @throws IOException If the push operation failed.
 	 */
-	void push() throws IOException, ServiceUnavailable;
+  Map<RemoteRefUpdate, Status> push() throws IOException, ServiceUnavailable;
 
 	/**
 	 * @return The working directory of this {@link JGitManager} object.
 	 */
 	File getWorkingDirectory();
+  /**
+   * Undo local commits and undo changes to local files (via checkout -- .)
+   * 
+   * @throws IOException If the reset or checkout operations failed.
+   */
+  void uncommitChanges() throws IOException;
 
 }
